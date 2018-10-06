@@ -1,0 +1,108 @@
+- id: automation.Front_Lights_On
+  alias: Turn on library and entry lights when there is movement
+  trigger:
+    entity_id: sensor.entry_sensor
+    platform: state
+    to: active
+  condition: 
+#    condition: sun
+#    after: sunset
+    
+    condition: or # 'when dark' condition: either after sunset or before sunrise
+    conditions:
+      - condition: sun
+        after: sunset
+#       after_offset: '-01:00:00'        
+      - condition: sun
+        before: sunrise
+#        before_offset: '01:00:00'
+
+  action:
+    - entity_id: light.library_downlights
+      service: light.turn_on
+    - entity_id: switch.entry_lamp
+      service: switch.turn_on
+
+        
+- id: automation.Front_Lights_Off
+  alias: Turn off library and entry lights 10 minutes after last movement
+  trigger:
+    entity_id: sensor.entry_sensor
+    for:
+      minutes: 10
+    platform: state
+    to: inactive
+  action:
+    - entity_id: light.library_downlights
+      service: light.turn_off
+    - entity_id: switch.entry_lamp
+      service: switch.turn_off
+
+- id: automation.Bird_Lamps_On
+  alias: Turn on Bird Lamps when Living Room Accents are turned on
+  trigger:
+    platform: state
+    entity_id: light.living_room_picture_accents
+    to: 'on'
+  action:
+    service: light.turn_on
+    entity_id: light.bird_lights
+
+- id: automation.Bird_Lamps_Off
+  alias: Turn off Bird Lamps when Living Room Accents are turned off
+  trigger:
+    platform: state
+    entity_id: light.living_room_picture_accents
+    to: 'off'
+  action:
+    service: light.turn_off
+    entity_id: light.bird_lights
+
+- id: automation.Bedroom_Lamps_On
+  alias: Turn on Bedroom Lamps when Bedroom Chandelier is turned on
+  trigger:
+    platform: state
+    entity_id: light.master_bedroom_chandelier
+    to: 'on'
+  action:
+    service: light.turn_on
+    entity_id:
+    - light.bedroom_dresser_lamps
+    - light.reagans_lamp
+    - light.glendas_lamp
+
+- id: automation.Bedroom_Lamps_Off
+  alias: Turn on Bedroom Lamps when Bedroom Chandelier is turned off
+  trigger:
+    platform: state
+    entity_id: light.master_bedroom_chandelier
+    to: 'off'
+  action:
+    service: light.turn_off
+    entity_id:
+    - light.bedroom_dresser_lamps
+    - light.reagans_lamp
+    - light.glendas_lamp
+
+- id: automation.Upstairs_Lights_On
+  alias: Turn on Gameroom and Theater lights on when there is movement in game room
+  trigger:
+    entity_id: sensor.gameroom_motion
+    platform: state
+    to: active
+  action:
+    - entity_id: light.gameroom_pictures, light.theater_wall_sconces, light.theater_lamp, light.bear_lamp
+      service: light.turn_on
+
+        
+- id: automation.Upstairs_Lights_Off
+  alias: Turn off upstairs lights 10 minutes after last movement
+  trigger:
+    entity_id: sensor.gameroom_motion
+    for:
+      minutes: 10
+    platform: state
+    to: inactive
+  action:
+    entity_id: light.gameroom_pictures, light.theater_wall_sconces, light.theater_lamp, light.bear_lamp
+    service: light.turn_off

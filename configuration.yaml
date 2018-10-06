@@ -1,0 +1,152 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 160.2
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: CST6CDT
+  # Customization file
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+# introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+  api_password: !secret hass_pass
+  ssl_certificate: !secret ssl_cert
+  ssl_key: !secret ssl_key
+  base_url: !secret base_url
+  
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  include_used_components: true
+
+# Discover some devices automatically
+discovery:
+  ignore:
+    - samsung_tv
+    - google_cast
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Weather prediction
+sensor: !include sensor.yaml
+
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+cloud:
+
+group: !include groups.yaml
+automation: !include automations.yaml
+
+script: !include scripts.yaml
+
+panel_iframe:
+  configurator:
+    title: Configurator
+    icon: mdi:wrench
+    url: !secret config_url
+
+camera:
+  - platform: foscam
+    ip: 192.168.1.81
+    port: 88
+    username: !secret camera_uname
+    password: !secret foscam_pass
+
+lutron:
+  host: 192.168.1.202
+  username: !secret lutron_uname
+  password: !secret lutron_pass
+  
+mqtt:
+  broker: localhost
+  port: 1883
+  protocol: 3.1
+  keepalive: 60
+  discovery: true
+  discovery_prefix: smartthings
+#  client_id: smartthings_x2 must be unique.  default is random
+  username: !secret smartthings_mqtt_uname
+  password: !secret smartthings_mqtt_pass
+
+#device_tracker:
+#  - platform: netgear
+#    host: 192.161.
+#    username: 
+#    password:
+    
+switch: !include switch.yaml
+
+light: !include light.yaml
+
+device_tracker:
+  - platform: mqtt
+    devices:
+      GlendasPhone: "smartthings/Glenda Ramsower's Android/presence"
+      ReagansPhone: "smartthings/Reagan Ramsower's Note8/presence"
+
+climate:
+  - platform: mqtt
+    name: Gameroom
+    modes:
+      - "idle"
+      - "auto"
+      - "heat"
+      - "emergency heat"
+      - "cooling"
+#    swing_modes:
+#      - on
+#      - off
+    fan_modes:
+      - "on"
+      - "auto"
+      - "off"
+    current_temperature_topic: "smartthings/Game Room Thermostat/temperature"
+    temperature_command_topic: "smartthings/Game Room Thermostat/thermostatSetpoint"
+    temperature_state_topic: "smartthings/Game Room Thermostat/thermostatSetpoint"
+    mode_state_topic: "smartthings/Game Room Thermostat/thermostatOperatingState"
+    mode_command_topic: "smartthings/Game Room Thermostat/thermostatOperatingState"
+    fan_mode_command_topic: "smartthings/Game Room Thermostat/thermostatFanMode"
+    fan_mode_state_topic: "smartthings/Game Room Thermostat/thermostatFanMode"
+
+alarm_control_panel:
+  - platform: mqtt
+    state_topic: "smartthings/Home Alarm/alarm"
+    command_topic: "smartthings/Home Alarm/alarm"
+    payload_arm_home: strobe
+    payload_arm_away: strobe
+    payload_disarm: off

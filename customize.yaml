@@ -1,0 +1,4 @@
+remote.harmony_hub:
+  friendly_name: Living Room
+camera.foscam_camera:
+  order: 13

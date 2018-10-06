@@ -1,0 +1,136 @@
+  default_view:
+    view: yes
+    icon: mdi:home
+    entities:
+      - sun.sun
+      - sensor.yr_symbol
+      - camera.foscam_camera
+      - device_tracker.ReagansPhone
+      - device_tracker.GlendasPhone
+      - alarm_control_panel.mqtt_alarm
+
+  LivingArea:
+    name: Den
+    view: yes
+    entities:
+      - group.LivingRoom
+      - group.Bar
+      - group.LivingRoomMedia
+      - group.BackPorch
+      - group.DenSensors
+  LivingRoom: light.living_room_chandelier, light.living_room_downlights, light.living_room_fireplace, light.living_room_picture_accents, light.bird_lights
+  Bar: light.living_room_bar_accents, light.living_room_bar_downlight
+  LivingRoomMedia: remote.harmony_hub
+  BackPorch:
+    name: Back Porch
+    entities: light.downporch_mstersconce, light.downporch_sconces
+  DenSensors: 
+    name: Doors/Sensors
+    entities: sensor.breezeway_door, sensor.utility_loggia_door, sensor.den_loggia_door, sensor.den_back_door
+
+  MasterBed:
+    name: Bedroom
+    view: yes
+    entities:
+      - group.Bedroom
+      - group.Bathroom
+      - group.Media
+  Bedroom: light.master_bedroom_chandelier, light.master_bedroom_downlights, light.bedroom_dresser_lamps, light.reagans_lamp, light.glendas_lamp
+  Bathroom: light.master_bathroom_chandelier, light.master_bathroom_vanity
+  Bedroom Media: remote.bedroom, media_player.bedroom
+
+  KitchenArea:
+    name: Kitchen
+    view: yes
+    entities:
+      - group.Kitchen
+      - group.GuestBathroom
+      - group.UtilityHall
+  Kitchen: light.kitchen_cabinet, light.kitchen_downlights, light.kitchen_chandelier, light.kitchen_task
+  GuestBathroom: 
+    name: Guest Bathroom
+    entities: light.guest_bath_vanity
+  UtilityHall:
+    name: Utility Hall
+    entities: light.utility_hall_chandelier, light.utility_hall_downlight
+  
+  Front:
+    view: yes
+    entities:
+      - group.Entry
+      - group.Library
+      - group.DiningRoom
+      - group.ButlerPantry
+      - group.FrontPorch
+  Library: light.library_downlights, light.library_chandelier
+  ButlerPantry: 
+    name: Butler Pantry
+    entities: light.butler_pantry_cabinets, light.butler_pantry_downlight
+  DiningRoom: 
+    name: Dining Room
+    entities: light.dining_room_accents, light.dining_room_chandelier
+  Entry:
+    entities:
+      - light.entry_chandelier
+      - light.entry_hall_pictures
+      - light.entry_picture
+      - light.entry_pathway
+      - light.entry_stairway_and_door
+      - light.entry_wall_plugs
+      - light.entry_wall_wash
+      - switch.entry_lamp
+      - sensor.entry_sensor
+  FrontPorch:
+    name: Front Porch
+    entities: light.frontporch_lanterns, light.frontporch_porchdownlights, light.frontporch_security_spots  
+
+  Upstairs:
+    view: yes
+    entities:
+      - group.Gameroom
+      - group.GameroomPorch
+      - group.UpstairsHall
+      - group.Theater
+      - group.TheaterMedia
+      - group.Studio
+      - group.StudioPorch
+      - group.GameroomSensors
+  Gameroom: light.gameroom_cabinet, light.gameroom_downlights, light.gameroom_pictures, light.gameroom_pool_table, light.bear_lamp, sensor.gameroom_motion, climate.gameroom
+  GameroomMedia:  remote.ramsower_home
+  GameroomPorch:
+    name: Gameroom Porch
+    entities: light.gameroom_porch_left_downlights, light.gameroom_porch_right_downlights, light.gameroom_porch_sconces
+  UpstairsHall:
+    name: Upstairs Hall
+    entities: light.gameroom_hall_downlights, light.gameroom_upstairs_window_wash
+  Studio: switch.studio_lights
+  StudioPorch: light.studio_porch_downlights, light.studio_porch_lanterns
+  Theater: light.theater_downlights, light.theater_wall_sconces, light.theater_lamp
+  TheaterMedia: remote.theater
+  Sensors: sensor.gameroom_motion, sensor.theater_motion
+
+  Outside:
+    view: yes
+    entities:
+      - group.Plaza
+      - group.Loggia
+      - group.Breezeway
+      - group.Landscape
+  Plaza: light.fountain  
+  Loggia: light.bears_fan, light.loggia_downlights, light.loggia_fireplace, sensor.loggia_sensor
+  Landscape:
+    control: hidden
+    entities: light.landscape_accent_lights, light.landscape_eave, light.landscape_electric_plug, light.landscape_security_lights
+  Breezeway: light.porte_cochere_downlights, camera.foscam
+
+  House:
+    view: yes
+    entities:
+      - switch.hot_water_heater
+      - group.Security
+#  Security:  light.panel_area_security_button
+
+  LBJ:
+    view: yes
+    entities:
+      - light.golf_cart_charger
