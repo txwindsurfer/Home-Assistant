@@ -19,3 +19,57 @@
   payload_on: "on"
   payload_off: "off"
   retain: true
+- platform: template
+  switches:
+    watch_bedroom_tv:
+      friendly_name: "Watch Bedroom TV"
+      value_template: "{{ is_state_attr('remote.bedroom', 'current_activity', 'Watch Bedroom TV') }}"
+      turn_on:
+        service: remote.turn_on
+        entity_id: remote.bedroom 
+        data:
+          activity: "31447651"
+      turn_off:
+        service: remote.turn_off
+        entity_id: remote.bedroom
+        data:
+          activity: "-1"
+    watch_livingroom_tv:
+      friendly_name: "Watch Living Room TV"
+      value_template: "{{ is_state_attr('remote.living_room', 'current_activity', 'Watch Living Room TV') }}"
+      turn_on:
+        service: remote.turn_on
+        entity_id: remote.living_room 
+        data:
+          activity: "31263352"
+      turn_off:
+        service: remote.turn_off
+        entity_id: remote.living_room
+        data:
+          activity: "-1"
+    watch_gameroom_tv:
+      friendly_name: "Watch Gameroom TV"
+      value_template: "{{ is_state_attr('remote.gameroom', 'current_activity', 'Watch Gameroom TV') }}"
+      turn_on:
+        service: remote.turn_on
+        entity_id: remote.gameroom 
+        data:
+          activity: "30441624"
+      turn_off:
+        service: remote.turn_off
+        entity_id: remote.gameroom
+        data:
+          activity: "-1"
+    watch_theater_tv:
+      friendly_name: "Watch Theater TV"
+      value_template: "{{ is_state_attr('remote.theater', 'current_activity', 'Watch Theater TV') }}"
+      turn_on:
+        service: remote.turn_on
+        entity_id: remote.theater 
+        data:
+          activity: "31333361"
+      turn_off:
+        service: remote.turn_off
+        entity_id: remote.theater
+        data:
+          activity: "-1"

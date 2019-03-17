@@ -1,5 +1,21 @@
 # Weater prediction
 - platform: yr
+  name: Weather
+  forecast: 24
+  monitored_conditions:
+    - temperature
+    - symbol
+    - precipitation
+    - windSpeed
+    - pressure
+    - windDirection
+    - humidity
+    - fog
+    - cloudiness
+    - lowClouds
+    - mediumClouds
+    - highClouds
+    - dewpointTemperature
 # smartthings sensors
 - platform: mqtt
   name: "Entry Sensor"
@@ -22,3 +38,24 @@
 - platform: mqtt
   name: "Den Back Door"
   state_topic: "smartthings/Zone Livingroom Back Door/contact"
+- platform: mqtt
+  name: "Front Door"
+  state_topic: "smartthings/Zone Front Door/contact"
+- platform: mqtt
+  name: "Gameroom South Door"
+  state_topic: "smartthings/Zone Gameroom Door L/contact"
+- platform: mqtt
+  name: "Gameroom North Door"
+  state_topic: "smartthings/Zone Gameroom Door R/contact"
+- platform: mqtt
+  name: "Theater Motion"
+  state_topic: "smartthings/Zone Theater Motion/contact"
+- platform: mqtt
+  name: "Theater Door"
+  state_topic: "smartthings/Zone Theater Door/contact"
+- platform: mqtt
+  name:  "Studio Doors"
+  state_topic: "smartthings/Zone Studio Doors/contact"
+- platform: mqtt
+  name: "Office Sensor"
+  state_topic: "smartthings/Office Sensor/motion"

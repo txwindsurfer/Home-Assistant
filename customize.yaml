@@ -2,3 +2,5 @@ remote.harmony_hub:
   friendly_name: Living Room
 camera.foscam_camera:
   order: 13
+device_tracker.reagansphone:
+  entity_picture: /local/Reagan-Profile.png

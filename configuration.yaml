@@ -24,10 +24,20 @@ config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
-  api_password: !secret hass_pass
+#  api_password: !secret hass_pass
   ssl_certificate: !secret ssl_cert
   ssl_key: !secret ssl_key
   base_url: !secret base_url
+
+#http: Don't use this!  Use dehydrated -- see splitbrain.org url in Google bookmarks
+#  api_password: YOUR_PASSWORD
+#  ssl_certificate: /etc/letsencrypt/live/txwindsurfer.duckdns.org/fullchain.pem
+#  ssl_key: /etc/letsencrypt/live/txwindsurfer.duckdns.org/privkey.pem
+#  base_url: txwindsurfer.duckdns.org
+  
+#duckdns:
+#  domain: txwindsurfer
+#  access_token: !secret duck_token
   
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -40,9 +50,11 @@ updater:
 
 # Discover some devices automatically
 discovery:
-  ignore:
-    - samsung_tv
-    - google_cast
+#  ignore:
+#    - samsung_tv
+#    - google_cast
+#    - harmony
+#    - cover
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -59,20 +71,12 @@ map:
 # Track the sun
 sun:
 
-# Weather prediction
-sensor: !include sensor.yaml
-
 # Text to speech
 tts:
   - platform: google
 
 # Cloud
 cloud:
-
-group: !include groups.yaml
-automation: !include automations.yaml
-
-script: !include scripts.yaml
 
 panel_iframe:
   configurator:
@@ -103,50 +107,84 @@ mqtt:
   username: !secret smartthings_mqtt_uname
   password: !secret smartthings_mqtt_pass
 
-#device_tracker:
+device_tracker:
+  - platform: mqtt
+    devices:
+      glendasphone: "smartthings/Glenda Ramsower's Note9/presence"
+      reagansphone: "smartthings/Reagan Ramsower's Note8/presence"
+
+# enabling netgear will provide entities for devices connect to router
 #  - platform: netgear
-#    host: 192.161.
-#    username: 
-#    password:
-    
+#    host: 192.168.1.1
+#    username: !secret netgear_uname
+#    password: !secret netgear_pass
+ 
+lock:
+  - platform: mqtt
+    name: Breezeway Lock
+    command_topic:  'smartthings/Breezeway Lock/lock'
+    state_topic: 'smartthings/Breezeway Lock/lock'
+    payload_lock: "locked"
+    payload_unlock: "unlocked"
+  - platform: mqtt
+    name: Garage Lock
+    command_topic:  'smartthings/Garage Lock/lock'
+    state_topic: 'smartthings/Garage Lock/lock'
+    payload_lock: "locked"
+    payload_unlock: "unlocked"
+
+# ACP will send an arm (strobe) but can't recognize ST alarm states
+# alarm_control_panel:
+#  - platform: mqtt
+#    state_topic: "smartthings/Home Alarm/alarm"
+#    command_topic: "smartthings/Home Alarm/alarm"
+#    payload_arm_home: strobe
+#    payload_arm_away: strobe
+#    payload_disarm: off
+#    retain: true
+
+group: !include groups.yaml
+
+# automation: !include automations.yaml
+
+script: !include scripts.yaml
+
 switch: !include switch.yaml
 
 light: !include light.yaml
 
-device_tracker:
-  - platform: mqtt
-    devices:
-      GlendasPhone: "smartthings/Glenda Ramsower's Android/presence"
-      ReagansPhone: "smartthings/Reagan Ramsower's Note8/presence"
+sensor: !include sensor.yaml
 
-climate:
-  - platform: mqtt
-    name: Gameroom
-    modes:
-      - "idle"
-      - "auto"
-      - "heat"
-      - "emergency heat"
-      - "cooling"
-#    swing_modes:
-#      - on
-#      - off
-    fan_modes:
-      - "on"
-      - "auto"
-      - "off"
-    current_temperature_topic: "smartthings/Game Room Thermostat/temperature"
-    temperature_command_topic: "smartthings/Game Room Thermostat/thermostatSetpoint"
-    temperature_state_topic: "smartthings/Game Room Thermostat/thermostatSetpoint"
-    mode_state_topic: "smartthings/Game Room Thermostat/thermostatOperatingState"
-    mode_command_topic: "smartthings/Game Room Thermostat/thermostatOperatingState"
-    fan_mode_command_topic: "smartthings/Game Room Thermostat/thermostatFanMode"
-    fan_mode_state_topic: "smartthings/Game Room Thermostat/thermostatFanMode"
+climate: !include climate.yaml
 
-alarm_control_panel:
-  - platform: mqtt
-    state_topic: "smartthings/Home Alarm/alarm"
-    command_topic: "smartthings/Home Alarm/alarm"
-    payload_arm_home: strobe
-    payload_arm_away: strobe
-    payload_disarm: off
+#scene:
+
+#cover:
+# - platform: lutron
+ 
+cast:
+  media_player:
+  - host: 192.168.1.45
+  - host: 192.168.1.48
+#  - host: 192.168.1.44 Studio TV goes off
+  - host: 192.168.1.47
+  - host: 192.168.1.70
+  - host: 192.168.1.33
+#  - host: 192.168.1.41 LR TV goes off
+  - host: 192.168.1.74
+  - host: 192.168.1.50
+  - host: 192.168.1.32
+  - host: 192.168.1.40
+  
+logger:
+  default: warning
+#  logs:
+#    pylutron: debug
+#    pylutron.discovery: debut
+#    homeassistant.components.cast.media_player: debug
+#    pychromecast: debug
+#    pychromecast.discovery: debug
+#    pychromecast.socket_client: debug
+#    zeroconf: debug
+
+system_health:
